@@ -1,70 +1,176 @@
-var cities = [];
+var mapa = null;
 function setup() {
   createCanvas(1400, 600);
-
-  cities.push(new City(0, 0, 'A'));
-  cities.push(new City(250, 250, 'B'));
-  cities.push(new City(250, -250, 'C'));
-  cities.push(new City(-250, -250, 'D'));
-  cities.push(new City(-250, 250, 'E'));
-
-  cities.push(new City(-250, 50, 'F'));
-  cities.push(new City(350, 150, 'G'));
-  cities.push(new City(-650, 180, 'H'));
-  cities.push(new City(650, 180, 'I'));
-  cities.push(new City(750, 80, 'J'));
-
-  cities.push(new City(750, -120, 'K'));
-  cities.push(new City(30, -170, 'L'));
-
-  cities.push(new City(-750, -120, 'M'));
-  cities.push(new City(-450, -10, 'N'));
-
-  cities[0].createJoin(cities[1]);
-  cities[0].createJoin(cities[2]);
-  cities[0].createJoin(cities[3]);
-  cities[0].createJoin(cities[4]);
-
-  cities[1].createJoin(cities[6]);
-  cities[6].createJoin(cities[8]);
-
-  cities[8].createJoin(cities[2]);
-
-  cities[2].createJoin(cities[11]);
-
-  cities[0].createJoin(cities[5]);
-
-  cities[3].createJoin(cities[13]);
-  cities[13].createJoin(cities[7]);
+  mapa = new CityMap();
 }
 
 function draw() {
   background(220);
-  cities.forEach(city => city.draw());
+  mapa.draw();
 }
 
 function mousePressed() {
-  cities.forEach(city => city.reset());
-  cities.forEach(city => city.selectCity(mouseX, mouseY));
+  mapa.mousePressed();
 }
 
 function buscar() {
-  cities.forEach(city => city.reset());
-  var cityAName = document.getElementById('ciudadA').value;
-  var cityBName = document.getElementById('ciudadB').value;
+  mapa.buscar(
+    document.getElementById('ciudadA').value,
+    document.getElementById('ciudadB').value
+  );
+}
 
-  var cityA = cities.find(city => city.text === cityAName);
-  var cityB = cities.find(city => city.text === cityBName);
+class CityMap {
+  constructor() {
+    this.currentTime = 0;
+    this.drawPath = false;
+    this.currentRoute = 0;
+    this.currentCityIndex = 0;
+    this.cities = [];
+    this.posiblesCities = [];
+    this.cities.push(new City(0, 0, 'A'));
+    this.cities.push(new City(250, 250, 'B'));
+    this.cities.push(new City(250, -250, 'C'));
+    this.cities.push(new City(-250, -250, 'D'));
+    this.cities.push(new City(-250, 250, 'E'));
 
-  if (cityA && cityB) {
-    var routes = cityA.test(cityB);
-    if (routes.length > 0) {
-      cityA.drawRoute = true;
-      routes.forEach(ruta => {
-        ruta.selectedRoute = true;
-        ruta.cityB.drawRoute = true;
-      });
+    this.cities.push(new City(-250, 50, 'F'));
+    this.cities.push(new City(350, 150, 'G'));
+    this.cities.push(new City(-650, 180, 'H'));
+    this.cities.push(new City(650, 180, 'I'));
+    this.cities.push(new City(750, 80, 'J'));
+
+    this.cities.push(new City(750, -120, 'K'));
+    this.cities.push(new City(30, -170, 'L'));
+
+    this.cities.push(new City(-750, -120, 'M'));
+    this.cities.push(new City(-450, -10, 'N'));
+
+    this.cities[0].createJoin(this.cities[1]);
+    this.cities[1].createJoin(this.cities[0]);
+    this.cities[0].createJoin(this.cities[2]);
+    this.cities[0].createJoin(this.cities[3]);
+    this.cities[0].createJoin(this.cities[4]);
+
+    this.cities[1].createJoin(this.cities[6]);
+    this.cities[6].createJoin(this.cities[8]);
+
+    this.cities[8].createJoin(this.cities[2]);
+
+    this.cities[2].createJoin(this.cities[11]);
+
+    this.cities[0].createJoin(this.cities[5]);
+
+    this.cities[3].createJoin(this.cities[13]);
+    this.cities[13].createJoin(this.cities[7]);
+
+    this.cities[2].createJoin(this.cities[1]);
+    this.cities[2].createJoin(this.cities[1]);
+
+    this.cities[4].createJoin(this.cities[11]);
+
+    this.cities[11].createJoin(this.cities[3]);
+    this.cities[11].createJoin(this.cities[5]);
+    this.cities[4].createJoin(this.cities[5]);
+    this.cities[4].createJoin(this.cities[13]);
+    this.cities[2].createJoin(this.cities[3]);
+    this.cities[3].createJoin(this.cities[5]);
+
+    this.cities[1].createJoin(this.cities[4]);
+    this.cities[8].createJoin(this.cities[1]);
+    this.cities[8].createJoin(this.cities[1]);
+    this.cities[13].createJoin(this.cities[5]);
+    this.cities[5].createJoin(this.cities[4]);
+  }
+
+  draw() {
+    // Draw all the joins
+    this.cities.forEach(city => city.drawJoin());
+
+    this.cities.forEach(city => city.drawCity());
+
+    if (this.drawPath) {
+      var actualTime = new Date().getTime();
+      if (actualTime - this.currentTime > 1500) {
+        this.currentTime = new Date().getTime();
+
+        if (this.currentRoute < this.posiblesCities.length) {
+          var citiesInRoute = this.posiblesCities[this.currentRoute];
+          if (this.currentCityIndex < citiesInRoute.length) {
+            citiesInRoute[this.currentCityIndex].drawRoute = true;
+            this.currentCityIndex++;
+          } else {
+            citiesInRoute.forEach(city => city.reset());
+            this.currentRoute++;
+            this.currentCityIndex = 0;
+          }
+        } else {
+          this.drawPath = false;
+        }
+      }
     }
+  }
+
+  buscar(cityAName, cityBName) {
+    this.cities.forEach(city => city.reset());
+
+    var cityA = this.cities.find(city => city.text === cityAName);
+    var cityB = this.cities.find(city => city.text === cityBName);
+
+    if (cityA && cityB) {
+      this.posiblesCities = [];
+
+      this.getFullPosiblesPath(cityA, cityB);
+      console.log(this.posiblesCities);
+      this.drawPath = true;
+      this.currentRoute = 0;
+      this.currentCityIndex = 0;
+    }
+  }
+
+  getPath(sourceCity, destinationCity, visitedCities = new Set()) {
+    if (visitedCities.has(sourceCity)) {
+      return false;
+    }
+    visitedCities.add(sourceCity);
+    if (sourceCity === destinationCity) {
+      return true;
+    }
+
+    for (let index = 0; index < sourceCity.joins.length; index++) {
+      const join = sourceCity.joins[index];
+      if (this.getPath(join.cityB, destinationCity, visitedCities)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  getFullPosiblesPath(sourceCity, destinationCity, visitedCities = new Set()) {
+    if (visitedCities.has(sourceCity)) {
+      return false;
+    }
+    visitedCities.add(sourceCity);
+    if (sourceCity === destinationCity) {
+      return true;
+    }
+
+    for (let index = 0; index < sourceCity.joins.length; index++) {
+      const join = sourceCity.joins[index];
+      if (
+        this.getFullPosiblesPath(join.cityB, destinationCity, visitedCities)
+      ) {
+        this.posiblesCities.push(Array.from(visitedCities));
+        visitedCities.delete(join.cityB);
+      }
+    }
+    visitedCities.delete(sourceCity);
+    return false;
+  }
+
+  mousePressed() {
+    this.cities.forEach(city => city.reset());
+    this.cities.forEach(city => city.selectCity(mouseX, mouseY));
   }
 }
 
@@ -86,16 +192,23 @@ class City {
         .substr(2, 1);
   }
 
-  draw() {
+  drawCity() {
+    var col = this.drawRoute ? color(255, 0, 0) : color(this.r, this.g, this.b);
+    stroke(col);
+    fill(col, 227);
+    ellipse(this.x, this.y, this.radio * 2, this.radio * 2);
+
+    textSize(22);
+    stroke(0);
+    text(this.text, this.x - 5, this.y + 10);
+  }
+
+  drawJoin() {
     var col = this.drawRoute ? color(255, 0, 0) : color(this.r, this.g, this.b);
     stroke(col);
     fill(col, 227);
     ellipse(this.x, this.y, this.radio * 2, this.radio * 2);
     this.joins.forEach(join => join.draw(this.isSelected));
-
-    textSize(22);
-    stroke(0);
-    text(this.text, this.x - 5, this.y + 10);
   }
 
   selectCity(mouseX, mouseY) {
@@ -131,7 +244,8 @@ class City {
     this.joins.push(new Join(this, city));
   }
 
-  test(destinationCity) {
+  // NO funciona con caminos dobles, recursividad infinita
+  getPathByBruteForce(destinationCity) {
     var routeCities = [];
     for (let index = 0; index < this.joins.length; index++) {
       const ruta = this.joins[index];
@@ -139,7 +253,7 @@ class City {
         routeCities.push(ruta);
         break;
       } else {
-        routeCities = ruta.cityB.test(destinationCity);
+        routeCities = ruta.cityB.getPathByBruteForce(destinationCity);
         if (routeCities.length > 0) {
           routeCities.unshift(ruta);
           break;
@@ -149,10 +263,10 @@ class City {
     return routeCities;
   }
 
-  reset(){
+  reset() {
     this.drawRoute = false;
     this.isSelected = false;
-    this.joins.forEach(join => join.selectedRoute = false);
+    this.joins.forEach(join => (join.selectedRoute = false));
   }
 }
 
