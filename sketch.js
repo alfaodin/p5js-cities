@@ -91,14 +91,20 @@ class CityMap {
 
     if (this.drawPath) {
       var actualTime = new Date().getTime();
-      if (actualTime - this.currentTime > 1500) {
+      if (actualTime - this.currentTime > 800) {
         this.currentTime = new Date().getTime();
 
         if (this.currentRoute < this.posiblesCities.length) {
           var citiesInRoute = this.posiblesCities[this.currentRoute];
           if (this.currentCityIndex < citiesInRoute.length) {
-            citiesInRoute[this.currentCityIndex].drawRoute = true;
+            var visitedCity = citiesInRoute[this.currentCityIndex];
             this.currentCityIndex++;
+
+            var cityTo = null;
+            if (this.currentCityIndex < citiesInRoute.length) {
+              cityTo = citiesInRoute[this.currentCityIndex];
+            }
+            visitedCity.drawRouteFunc(cityTo);
           } else {
             citiesInRoute.forEach(city => city.reset());
             this.currentRoute++;
@@ -211,6 +217,14 @@ class City {
     this.joins.forEach(join => join.draw(this.isSelected));
   }
 
+  drawRouteFunc(cityRoute) {
+    this.drawRoute = true;
+    if (cityRoute) {
+      var route = this.joins.find(join => join.cityB === cityRoute);
+      route.selectedRoute = true;
+    }
+  }
+
   selectCity(mouseX, mouseY) {
     var result = false;
     if (!this.isSelected) {
@@ -266,12 +280,13 @@ class City {
   reset() {
     this.drawRoute = false;
     this.isSelected = false;
-    this.joins.forEach(join => (join.selectedRoute = false));
+    this.joins.forEach(join => join.reset());
   }
 }
 
 class Join {
   constructor(cityA, cityB) {
+    this.currentTime = 0;
     this.cityA = cityA;
     this.cityB = cityB;
     this.selectedRoute = false;
@@ -280,6 +295,7 @@ class Join {
       Math.pow(this.cityA.x - this.cityB.x, 2) +
         Math.pow(this.cityA.y - this.cityB.y, 2)
     );
+
     this.angleCityA = Math.atan2(
       this.cityB.y - this.cityA.y,
       this.cityB.x - this.cityA.x
@@ -299,14 +315,40 @@ class Join {
       this.cityB.x + this.cityB.radio * Math.cos(this.angleCityB);
     this.joinCityBY =
       this.cityB.y + this.cityB.radio * Math.sin(this.angleCityB);
+
+    this.increment = 0;
+
+    this.hNoRadios = this.h - (this.cityA.radio + this.cityB.radio);
   }
 
   draw(isSelected) {
-    strokeWeight(isSelected || this.selectedRoute ? 4 : 1);
+    strokeWeight(1);
     stroke(20, 20, 20);
     line(this.joinCityAX, this.joinCityAY, this.joinCityBX, this.joinCityBY);
 
+    if (this.selectedRoute || isSelected) {
+      var time = new Date().getTime();
+      if (time - this.currentTime > 60 && this.increment < 100) {
+        this.currentTime = new Date().getTime();
+
+        this.increment += 10;
+      }
+
+      var hipotenusa = this.hNoRadios * (this.increment / 100);
+      var testBx = this.joinCityAX + hipotenusa * Math.cos(this.angleCityA);
+      var testBy = this.joinCityAY + hipotenusa * Math.sin(this.angleCityA);
+      strokeWeight(4);
+      stroke(200, 200, 20);
+      line(this.joinCityAX, this.joinCityAY, testBx, testBy);
+    }
+
     stroke(196);
     ellipse(this.joinCityBX, this.joinCityBY, 14, 14);
+  }
+
+  reset() {
+    this.increment = 0;
+    this.currentTime = 0;
+    this.selectedRoute = false;
   }
 }
