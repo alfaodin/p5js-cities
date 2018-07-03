@@ -13,8 +13,9 @@ function mousePressed() {
   mapa.mousePressed();
 }
 
-function buscar() {
+function buscar(functionIndex) {
   mapa.buscar(
+    functionIndex,
     document.getElementById('ciudadA').value,
     document.getElementById('ciudadB').value
   );
@@ -65,8 +66,6 @@ class CityMap {
     this.cities[13].createJoin(this.cities[7]);
 
     this.cities[2].createJoin(this.cities[1]);
-    this.cities[2].createJoin(this.cities[1]);
-
     this.cities[4].createJoin(this.cities[11]);
 
     this.cities[11].createJoin(this.cities[3]);
@@ -117,20 +116,28 @@ class CityMap {
     }
   }
 
-  buscar(cityAName, cityBName) {
+  buscar(functionIndex, cityAName, cityBName) {
     this.cities.forEach(city => city.reset());
 
     var cityA = this.cities.find(city => city.text === cityAName);
     var cityB = this.cities.find(city => city.text === cityBName);
 
     if (cityA && cityB) {
-      this.posiblesCities = [];
-
-      this.getFullPosiblesPath(cityA, cityB);
-      console.log(this.posiblesCities);
       this.drawPath = true;
       this.currentRoute = 0;
-      this.currentCityIndex = 0;
+      this.posiblesCities = [];
+
+      switch (functionIndex) {
+        case 0:
+          var visitedCities = new Set();
+          this.getPath(cityA, cityB, visitedCities);
+          this.posiblesCities.push(Array.from(visitedCities));
+          break;
+        case 1:
+          this.getFullPosiblesPath(cityA, cityB);
+          break;
+      }
+      console.log(this.posiblesCities);
     }
   }
 
@@ -344,6 +351,13 @@ class Join {
 
     stroke(196);
     ellipse(this.joinCityBX, this.joinCityBY, 14, 14);
+
+    textSize(12);
+    fill(0, 102, 153);
+
+    var testBx = this.joinCityAX + (this.hNoRadios * .5) * Math.cos(this.angleCityA);
+    var testBy = this.joinCityAY + (this.hNoRadios * .5) * Math.sin(this.angleCityA);
+    text(Math.round(this.h), testBx, testBy);
   }
 
   reset() {
