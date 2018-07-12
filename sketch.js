@@ -228,7 +228,9 @@ class City {
     this.drawRoute = true;
     if (cityRoute) {
       var route = this.joins.find(join => join.cityB === cityRoute);
-      route.selectedRoute = true;
+      if (route) {
+        route.selectedRoute = true;
+      }
     }
   }
 
@@ -355,8 +357,10 @@ class Join {
     textSize(12);
     fill(0, 102, 153);
 
-    var testBx = this.joinCityAX + (this.hNoRadios * .5) * Math.cos(this.angleCityA);
-    var testBy = this.joinCityAY + (this.hNoRadios * .5) * Math.sin(this.angleCityA);
+    var testBx =
+      this.joinCityAX + this.hNoRadios * 0.5 * Math.cos(this.angleCityA);
+    var testBy =
+      this.joinCityAY + this.hNoRadios * 0.5 * Math.sin(this.angleCityA);
     text(Math.round(this.h), testBx, testBy);
   }
 
