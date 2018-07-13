@@ -1,16 +1,31 @@
 var mapa = null;
+var font;
+
+function preload(){
+  font = loadFont('AvenirNextLTPro-Demi.otf');
+}
+
 function setup() {
   createCanvas(1400, 600);
   mapa = new CityMap();
+  background(220);
+  textFont(font);
+  textSize(128);
+  fill(255);
+  noStroke();
+  text('Christian', 10, 200);
+
+  text('Christian', 60, 200);
+
 }
 
 function draw() {
-  background(220);
-  mapa.draw();
+  //background(220);
+  //mapa.draw();
 }
 
 function mousePressed() {
-  mapa.mousePressed();
+  //mapa.mousePressed();
 }
 
 function buscar(functionIndex) {
