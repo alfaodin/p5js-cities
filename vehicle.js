@@ -6,12 +6,40 @@ function Vehicle(x, y) {
   this.r = 8;
   this.maxspeed = 10;
   this.maxforce = 1;
+  this.currentIndex = 0;
+  this.currentPoint = undefined;
 }
 
 Vehicle.prototype.behaviorsSeek = function() {
   var mouse = createVector(mouseX, mouseY);
   var seek = this.arrive2(mouse);
   this.applyForce(seek);
+};
+
+Vehicle.prototype.behaviorsFollowPoinst = function(points = []) {
+  if (points.length > 0) {
+    if (!this.currentPoint) {
+      this.currentPoint = points[this.currentIndex];
+    }
+
+    if (this.currentPoint) {
+      var seek = this.arrive2(this.currentPoint);
+
+      var toTarget = p5.Vector.sub(this.currentPoint, this.pos);
+      var dist = toTarget.mag();
+      
+      if (dist <= 1) {
+        console.log('CAmbio');
+        
+        this.currentPoint = points[++this.currentIndex];
+        if(this.currentIndex > points.length){
+          this.currentPoint = 0;
+        }
+        //points.shift();
+      }
+      this.applyForce(seek);
+    }
+  }
 };
 
 Vehicle.prototype.behaviorsFleeAndArrive = function() {
@@ -72,7 +100,7 @@ Vehicle.prototype.flee2 = function(target) {
 };
 
 Vehicle.prototype.arrive2 = function(target) {
-  var decelerationTweaker = 100;
+  var decelerationTweaker = 10;
   var toTarget = p5.Vector.sub(target, this.pos);
   var dist = toTarget.mag();
 
