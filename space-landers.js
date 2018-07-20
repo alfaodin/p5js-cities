@@ -26,7 +26,7 @@ function SpaceShip(x, y) {
   this.vel = createVector();
   this.acc = createVector();
   this.verticalForce = createVector();
-  this.engineForce = createVector(0, -0.1);
+  this.engineForce = createVector(0, -0.005);
   this.gravity = createVector(0, 0.1);
   this.ajustmentValue = 0.1;
   this.startEngine = false;
@@ -55,12 +55,14 @@ SpaceShip.prototype.update = function() {
   
   if (this.startEngine) {
     this.verticalForce.add(this.engineForce);
+    this.verticalForce.limit(1);
+    console.log(`el vector ${this.verticalForce} La magnitud  es ${this.verticalForce.magSq()}`);
+
   } else {
       this.verticalForce = createVector(0, 0);
   }
 
   if(this.pos.y + 20 > height){
-    console.log(`La magnitud  es ${this.vel.magSq()}`);
     this.vel = createVector(0, 0);
   }else{
     this.vel.add(this.gravity);
