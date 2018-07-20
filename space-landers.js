@@ -3,7 +3,7 @@ var spaceShip = null;
 function setup() {
   createCanvas(1400, 800);
 
-  spaceShip = new SpaceShip(width / 2, 10);
+  spaceShip = new SpaceShip(width / 2, 30);
   spaceShip.show();
 }
 
@@ -14,7 +14,7 @@ function draw() {
 }
 
 function keyPressed() {
-  spaceShip.startEngines();
+  spaceShip.startEngines(keyCode);
 }
 
 function keyReleased() {
@@ -26,10 +26,11 @@ function SpaceShip(x, y) {
   this.vel = createVector();
   this.acc = createVector();
   this.verticalForce = createVector();
-  this.engineForce = createVector(0, -0.005);
+  this.engineForce = createVector();
   this.gravity = createVector(0, 0.1);
   this.ajustmentValue = 0.1;
   this.startEngine = false;
+  this.engineMagnitud = 0.005;
 }
 
 SpaceShip.prototype.show = function() {
@@ -43,8 +44,22 @@ SpaceShip.prototype.show = function() {
   rect(this.pos.x, this.pos.y, 20, 20);
 };
 
-SpaceShip.prototype.startEngines = function() {
+SpaceShip.prototype.startEngines = function(key) {
   this.startEngine = true;
+  let x = 0,
+    y = 0;
+
+  if (key === UP_ARROW) {
+    y = -1 * this.engineMagnitud;
+  } else if (key === DOWN_ARROW) {
+    y = this.engineMagnitud;
+  } else if (key === RIGHT_ARROW) {
+    x = this.engineMagnitud;
+  } else if (key === LEFT_ARROW) {
+    x = -1 * this.engineMagnitud;
+  }
+
+  this.engineForce = createVector(x, y);
 };
 
 SpaceShip.prototype.stopEngines = function() {
@@ -52,24 +67,25 @@ SpaceShip.prototype.stopEngines = function() {
 };
 
 SpaceShip.prototype.update = function() {
-  
   if (this.startEngine) {
     this.verticalForce.add(this.engineForce);
-    this.verticalForce.limit(1);
-    console.log(`el vector ${this.verticalForce} La magnitud  es ${this.verticalForce.magSq()}`);
-
+    this.verticalForce.limit(0.5);
   } else {
-      this.verticalForce = createVector(0, 0);
+    this.verticalForce = createVector(0, 0);
   }
 
-  if(this.pos.y + 20 > height){
+  if (this.pos.y + 20 > height) {
     this.vel = createVector(0, 0);
-  }else{
+  } else if (this.pos.y - 20 < 0) {
+    this.vel = createVector(0, 0);
+  } else if (this.pos.x + 20 > width) {
+    this.vel = createVector(0, 0);
+  } else if (this.pos.x - 20 < 0) {
+    this.vel = createVector(0, 0);
+  } else {
     this.vel.add(this.gravity);
     this.vel.add(this.verticalForce);
   }
   var adjustedGravityVel = p5.Vector.mult(this.vel, this.ajustmentValue);
   this.pos.add(adjustedGravityVel);
-
-  
 };
