@@ -1,9 +1,11 @@
 var spaceShip = null;
+var caveGenerator = null;
 var fuelIndicatorUi = null;
 
 function setup() {
   createCanvas(1400, 800);
 
+  caveGenerator = new CaveGenerator(width, height);
   spaceShip = new SpaceShip(width / 2, 40);
   fuelIndicatorUI = new FuelIndicatorUI(10, 10);
 }
@@ -13,6 +15,7 @@ function draw() {
   spaceShip.update();
   spaceShip.show();
 
+  caveGenerator.show();
   fuelIndicatorUI.showUI();
 
   // background(255);
