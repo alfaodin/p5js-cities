@@ -53,3 +53,34 @@ CaveGenerator.prototype.generateLines = function(
   }
   return linePositions;
 };
+
+CaveGenerator.prototype.checkCollision = function(
+  spaceShip
+) {
+  let i;
+  for (i = 0; i < this.roofLinePositions.length - 1; i++) {
+
+    const element = this.roofLinePositions[i];
+    const nextElement = this.roofLinePositions[i + 1];
+
+    var hit = collideLineRect(element.x, element.y, nextElement.x, nextElement.y, spaceShip.pos.x,spaceShip.pos.y, spaceShip.radio, spaceShip.radio);
+
+    if(hit){
+      print("colliding? " + hit);
+      spaceShip.lose = true;
+    }
+  }
+
+  for (i = 0; i < this.floorLinePositions.length - 1; i++) {
+
+    const element = this.floorLinePositions[i];
+    const nextElement = this.floorLinePositions[i + 1];
+
+    var hit = collideLineRect(element.x, element.y, nextElement.x, nextElement.y, spaceShip.pos.x,spaceShip.pos.y, spaceShip.radio, spaceShip.radio);
+
+    if(hit){
+      print("colliding? " + hit);
+      spaceShip.lose = true;
+    }
+  }
+};

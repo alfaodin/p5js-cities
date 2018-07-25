@@ -6,7 +6,7 @@ function setup() {
   createCanvas(1400, 800);
 
   caveGenerator = new CaveGenerator(width, height);
-  spaceShip = new SpaceShip(width / 2, 40);
+  spaceShip = new SpaceShip(width / 2, height/2);
   fuelIndicatorUI = new FuelIndicatorUI(10, 10);
 }
 
@@ -15,15 +15,17 @@ function draw() {
   spaceShip.update();
   spaceShip.show();
 
+  caveGenerator.checkCollision(spaceShip);
   caveGenerator.show();
   fuelIndicatorUI.showUI();
 
   // background(255);
-  // line(200, 300, 100, 150);
-  // line(mouseX, mouseY, 350, 50);
-  // hit = collideLineLine(200, 300, 100, 150, mouseX, mouseY, 350, 50);
+	// rect(200,300,100,150);
+	// line(mouseX,mouseY,150,150);
 
-  // print('colliding? ' + hit);
+	// hit = collideLineRect(150,150,mouseX,mouseY,200,300,100,150);
+
+	// print("colliding? " + hit);
 }
 
 function keyPressed() {
