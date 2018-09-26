@@ -1,4 +1,6 @@
 function Grid(rows, cols) {
+  this.isGameOver = false;
+  this.beesNumber = 5;
   this.squareSize = 50;
   this.rows = rows;
   this.cols = cols;
@@ -17,6 +19,15 @@ function Grid(rows, cols) {
         this.squareSize
       );
     }
+  }
+
+  var plainArray = [].concat(...this.arrayCell);
+
+  for (let i = 0; i < this.beesNumber; i++) {
+    var index = Math.floor(random(plainArray.length));
+
+    const element = plainArray.splice(index, 1);
+    this.arrayCell[element[0].row][element[0].col].bee = true;
   }
 
   this.countNeighbors();
@@ -47,12 +58,29 @@ Grid.prototype.show = function() {
   }
 };
 
-Grid.prototype.checkMousePressed = function(mouseX, mouseY) {
+Grid.prototype.gameOver = function() {
+  this.isGameOver = true;
   for (let i = 0; i < this.arrayCell.length; i++) {
     for (let j = 0; j < this.arrayCell[i].length; j++) {
-      if (this.arrayCell[i][j].contains(mouseX, mouseY)) {
-        this.arrayCell[i][j].revealCell();
-        return;
+      this.arrayCell[i][j].revealed = true;
+    }
+  }
+};
+
+Grid.prototype.checkMousePressed = function(mouseX, mouseY) {
+  if (!this.isGameOver) {
+    for (let i = 0; i < this.arrayCell.length; i++) {
+      for (let j = 0; j < this.arrayCell[i].length; j++) {
+        if (this.arrayCell[i][j].contains(mouseX, mouseY)) {
+          this.arrayCell[i][j].revealCell(this.arrayCell);
+          if (this.arrayCell[i][j].bee) {
+            this.gameOver();
+          }
+          else{
+            
+          }
+          return;
+        }
       }
     }
   }

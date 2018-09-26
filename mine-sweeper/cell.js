@@ -1,6 +1,6 @@
 function Cell(row, col, startPosX, startPosY, squareSize) {
-  this.bee = random(1) < 0.1 ? true : false;
-  this.reveal = true;
+  this.bee = false;
+  this.revealed = false;
   this.row = row;
   this.col = col;
   this.rowPos = row * squareSize + startPosX;
@@ -14,7 +14,7 @@ Cell.prototype.show = function() {
   noFill();
   rect(this.rowPos, this.colPos, this.squareSize, this.squareSize);
 
-  if (this.reveal) {
+  if (this.revealed) {
     if (this.bee) {
       stroke(0);
       fill(200);
@@ -37,8 +37,8 @@ Cell.prototype.show = function() {
         rect(
           this.rowPos + 2,
           this.colPos + 2,
-          this.squareSize - 4,
-          this.squareSize - 4
+          this.squareSize - 3,
+          this.squareSize - 3
         );
       }
     }
@@ -47,7 +47,8 @@ Cell.prototype.show = function() {
 
 Cell.prototype.countBees = function(grid) {
   if (this.bee) {
-    return -1;
+    this.totalOfNeighbors = -1;
+    return;
   }
   var total = 0;
 
@@ -68,8 +69,11 @@ Cell.prototype.countBees = function(grid) {
   this.totalOfNeighbors = total;
 };
 
-Cell.prototype.revealCell = function() {
-  this.reveal = true;
+Cell.prototype.revealCell = function(grid) {
+  this.revealed = true;
+  if (this.totalOfNeighbors === 0) {
+    this.floodFill(grid);
+  }
 };
 
 Cell.prototype.contains = function(mousePointX, mousePointY) {
@@ -78,4 +82,22 @@ Cell.prototype.contains = function(mousePointX, mousePointY) {
     mousePointX <= this.rowPos + this.squareSize &&
     (mousePointY >= this.colPos && mousePointY <= this.colPos + this.squareSize)
   );
+};
+
+Cell.prototype.floodFill = function(grid) {
+  for (let i = -1; i <= 1; i++) {
+    for (let j = -1; j <= 1; j++) {
+      if (
+        this.row + i >= 0 &&
+        this.row + i < grid.length &&
+        this.col + j >= 0 &&
+        this.col + j < grid[this.row].length
+      ) {
+        var element = grid[this.row + i][this.col + j];
+        if (!element.bee && !element.revealed) {
+          element.revealCell(grid);
+        }
+      }
+    }
+  }
 };
