@@ -21,8 +21,6 @@ function draw() {
   for (let i = 0; i < starts.length; i++) {
     if (distance / 1000 > .001) {
       //console.log("MOVE");
-      
-      
     }
     starts[i].update();
     starts[i].show();
