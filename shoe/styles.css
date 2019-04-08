@@ -16,13 +16,78 @@ body {
   justify-content: space-between;
   width: 900px;
   height: 600px;
-	background-color: #FFF;
-	margin: 20px;
+  background-color: #FFF;
+  margin: 20px;
 }
 
-.container .img-box{
-	position: relative;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+.container .img-box {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  height: 100%;
+  background: #006dbc;
+}
+
+.container .img-box img {
+  position: relative;
+  width: 700px;
+  transform: rotate(-30deg);
+  left: -50px;
+}
+
+.container .details {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 40px;
+}
+
+.container .details h2 {
+  margin: 0;
+  padding: 0;
+  font-size: 2.5rem;
+  line-height: .8rem;
+  color: #444;
+}
+
+.container .details h2  span{
+  font-size: .4rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #999;
+}
+
+.container .details p{
+    max-width: 85%;
+    margin-left: 15%;
+    color: #333;
+    font-size: 15px;
+}
+
+
+.container .details h3{
+  margin: 0%;
+  padding: 0;
+  font-size: 2.5rem;
+  color: #a2a2a2;
+  float: left;
+}
+.container .details button{
+  background: #006dbc;
+  color: #FFF;
+  border: none;
+  box-shadow: none;
+  outline: none;
+  padding: 15px 20px;
+  margin-top: 50px;
+  font-size: 16px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 600;
+  border-radius: 
 }
