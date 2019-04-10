@@ -30,11 +30,22 @@ body {
   background: #006dbc;
 }
 
+.container .img-box::before {
+  content: 'Nike';
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: #000000;
+  opacity: .1;
+  font-size: 8rem;
+  font-weight:  bolder;
+}
+
 .container .img-box img {
-  position: relative;
+  position: absolute;
   width: 700px;
   transform: rotate(-30deg);
-  left: -50px;
+  left: -150px;
 }
 
 .container .details {
@@ -51,15 +62,17 @@ body {
   margin: 0;
   padding: 0;
   font-size: 2.5rem;
-  line-height: .8rem;
+  line-height: 2.8rem;
   color: #444;
+  display: block;
 }
 
-.container .details h2  span{
+.container .details h2 span{
   font-size: .4rem;
   text-transform: uppercase;
   letter-spacing: 2px;
   color: #999;
+  display: block;
 }
 
 .container .details p{
@@ -84,10 +97,12 @@ body {
   box-shadow: none;
   outline: none;
   padding: 15px 20px;
-  margin-top: 50px;
+  margin-top: 5px;
   font-size: 16px;
   letter-spacing: 1px;
   text-transform: uppercase;
   font-weight: 600;
-  border-radius: 
+  border-radius:  40px;
+  float: right;
+  cursor: pointer;
 }
