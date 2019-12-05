@@ -54,7 +54,7 @@ function setup() {
 function draw() {
     background(120);
 
-    /*for (let i = 0; i < vehicles.length; i++) {
+    for (let i = 0; i < vehicles.length; i++) {
         const element = vehicles[i];
         element.behaviorsFleeAndArrive();
         element.update();
@@ -80,7 +80,7 @@ function draw() {
 
     if (startFollow) seekVehicle.behaviorsFollowPoinst(mouseClickPositions);
     seekVehicle.update();
-    seekVehicle.show();*/
+    seekVehicle.show();
 
 
     movingVehicle.moveAround();

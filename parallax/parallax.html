@@ -1,0 +1,94 @@
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Simple Vertical Parallax</title>
+	<link rel="stylesheet" type="text/css" href="./style.css">
+</head>
+
+<body>
+	<section class="zoom">
+		<img id="layer1" src="./assets/mountain1.png" alt="" srcset="">
+		<img id="layer2" src="./assets/mountain2.png" alt="" srcset="">
+		<img id="text" src="./assets/text.png" alt="" srcset="">
+	</section>
+	<section class="content">
+		<h2>Prueba de Parallax Vertical</h2>
+		<p>
+			Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium veritatis doloribus aut dicta ducimus atque!
+			Laborum ex vero eaque perspiciatis. Sit voluptatibus veniam adipisci delectus unde ea corrupti consequatur eum.
+			Rem, placeat. Quas consectetur ipsam cum distinctio debitis molestiae aperiam error fugit, fugiat qui, dignissimos
+			et! Id, deserunt doloremque rem exercitationem, cumque fugit rerum tenetur harum eligendi, voluptate autem totam!
+			Rem cum sed dolor officiis possimus earum laborum tenetur dolorem! Ratione atque quibusdam qui quod voluptatem,
+			quam eveniet mollitia odit doloremque accusantium nisi possimus modi distinctio dolorem alias sint eaque.
+			Commodi at corporis dignissimos? Voluptatibus dolores itaque veritatis tempore consectetur, perferendis animi
+			perspiciatis libero eveniet? Quam, debitis reiciendis tempora deleniti vel exercitationem cumque voluptate ratione
+			ducimus impedit qui perferendis molestias.
+			Nobis, qui. Rem nemo vitae aliquam voluptatibus dignissimos quae quis aut aspernatur. Illo doloremque nesciunt,
+			asperiores accusamus, suscipit delectus sapiente nostrum repellat illum, itaque et sed dolor. Laboriosam, debitis
+			possimus.
+			Ut nulla autem non accusamus sapiente consequuntur nobis numquam assumenda explicabo recusandae veritatis
+			consectetur ullam ea minima repudiandae, placeat vero adipisci tempore quibusdam similique alias. Perferendis
+			magnam mollitia dolorem dolores.
+			Excepturi sequi fugit distinctio sit tempora nostrum autem minus praesentium facilis blanditiis! Fuga, dolor
+			reiciendis totam similique ad necessitatibus architecto harum quos laborum in, recusandae laboriosam saepe,
+			veritatis ipsa enim.
+			Iure accusantium ducimus quibusdam modi architecto excepturi, repellendus pariatur aliquid, ipsa voluptate
+			molestias? Quos quasi animi nobis eligendi iusto illum perferendis eveniet nesciunt reiciendis ipsam, assumenda,
+			non modi quibusdam facere?
+			Nobis itaque porro non nostrum! Unde ratione accusantium id ex illo maxime facere, dolorem sed, omnis dolores
+			illum voluptates quasi aspernatur vitae eaque quas libero nam quisquam ut maiores ad?
+			Deleniti cupiditate ab earum fugiat accusantium accusamus quo ratione quasi qui! Consequuntur incidunt obcaecati
+			cum dolor animi ipsum voluptas dolore ad. Reprehenderit molestiae a tenetur possimus sequi odio exercitationem
+			error!
+			Nam id ipsa ullam magni quisquam a earum esse ipsum numquam aliquid ipsam eos maxime fuga, quas libero excepturi!
+			Nemo possimus voluptates porro laudantium eligendi sapiente similique, cumque rem. Fugit.
+			Exercitationem tempore perferendis, minus amet vero eligendi ipsum placeat unde corporis hic vel officiis quisquam
+			eos quae quibusdam ratione. Natus consequatur amet veritatis, quasi neque harum cumque aliquid asperiores quas.
+			Impedit ut velit numquam accusamus reprehenderit maiores, sunt earum delectus accusantium. Dolorum architecto
+			expedita praesentium culpa hic! Fugit, dicta sed quam sit velit aspernatur perferendis necessitatibus assumenda
+			aliquid, magni incidunt.
+			Placeat, sequi quaerat cupiditate inventore ex a facere pariatur temporibus, molestias modi recusandae autem
+			labore eaque possimus accusantium quam veniam provident optio tempore dolorem, dolore aut id. Omnis, quia quae.
+			Id nam quis inventore quibusdam excepturi, fugit blanditiis maiores non dolore magnam provident illo facilis
+			reprehenderit! Praesentium accusantium, pariatur corrupti non quidem dolore eligendi odio, atque ut voluptates
+			illum sunt!
+			Nemo dicta, laudantium ut facere quasi numquam ipsum facilis neque quis nisi explicabo, recusandae molestiae
+			dolore, aliquam fugit repellat quos voluptates magnam soluta ratione veniam sequi consectetur! Voluptatibus,
+			cupiditate enim.
+			Molestias accusamus eligendi sint quia impedit nostrum distinctio, repellat ea eius illo saepe. Vitae autem,
+			eligendi neque, nobis non illum hic porro placeat harum cupiditate distinctio! Voluptas officia autem id.
+			Nisi, laborum exercitationem, maiores modi sequi ducimus labore, fugiat amet assumenda voluptatibus cupiditate hic
+			id eos? Minus voluptatem voluptas, officiis veritatis doloribus, libero nemo non, nulla sint modi sequi sed.
+			Error quo qui expedita quia cum officia adipisci praesentium! Itaque dicta ad voluptates mollitia voluptatem
+			assumenda commodi velit inventore molestiae dolores. Corporis velit laudantium laborum tempore tempora odit, error
+			qui!
+			Illo laudantium debitis autem necessitatibus mollitia, ab recusandae eius consequuntur. Similique, ratione.
+			Repellat recusandae vitae maiores dolorem. Unde quidem fugiat libero hic recusandae! Nam molestiae beatae mollitia
+			ea possimus natus!
+		</p>
+	</section>
+</body>
+
+<script text="text/javascript">
+	var scroll = window.pageYOffset;
+	var text = document.getElementById('text');
+	var layer1 = document.getElementById('layer1');
+	var layer2 = document.getElementById('layer2');
+
+	document.addEventListener('scroll', (e) => {
+		scroll = window.pageYOffset;
+		layer1.style.width = (100 + scroll / 3) + '%';
+		layer1.style.left = (40 - scroll / 5) + '%';
+
+		layer2.style.width = (100 + scroll / 2) + '%';
+		layer2.style.left = (scroll / 50) + '%';
+
+		text.style.bottom = (-100 + 10 + scroll * .5) + '%';
+	});
+
+</script>
+
+</html>
