@@ -1,4 +1,5 @@
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -6,16 +7,44 @@
 	<title>Rollover</title>
 	<link rel="stylesheet" type="text/css" href="./style.css">
 </head>
+
 <body>
 
-	<div class="card">
-		<div class="face front">
-			<h2>Front</h2>
-		</div>
-		<div class="face back">
-			<h2>Back</h2>
+	<div class="screen rollover">
+		<div class="card">
+			<div class="face front">
+				<h2>Front</h2>
+			</div>
+			<div class="face back">
+				<h2>Back</h2>
+			</div>
 		</div>
 	</div>
-	
+
+	<div class="screen parallax">
+		<section>
+			<h2 class="layer">Parallax</h2>
+			<div class="text-box">
+				<h2 class="layer">Parallax</h2>
+			</div>
+		</section>
+	</div>
+
 </body>
+
+<script>
+
+	document.addEventListener('mousemove', parallax);
+
+	function parallax(e) {
+		this.querySelectorAll('.layer').forEach(element => {
+			let x = (window.innerWidth - e.pageX) / 10;
+			let y = (window.innerHeight - e.pageY) / 10;
+
+			element.style.transform = 	`translate(${x}px, ${y}px)`;
+		});
+	}
+
+</script>
+
 </html>

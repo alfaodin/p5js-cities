@@ -9,9 +9,7 @@
 body {
   width: 100%;
   height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  box-sizing: border-box;
   background-color: #111;
 }
 
@@ -41,7 +39,6 @@ body {
   background-color: #ff0;
 }
 
-
 .card:hover .face.front {
   transform: perspective(400px) rotateY(180deg);
 }
@@ -58,7 +55,53 @@ body {
 }
 
 .card .face h2 {
-	font-size: 4em;
-	text-transform: uppercase;
-	transform: perspective(400px) translateZ(60px);
+  font-size: 4em;
+  text-transform: uppercase;
+  transform: perspective(400px) translateZ(60px);
+}
+
+.screen {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #111;
+}
+
+.screen.parallax {
+  position: relative;
+  overflow: hidden;
+  background-color: #FFF;
+}
+
+section .text-box {
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #1897FF;
+  clip-path: polygon(0 0, 55% 0, 45% 100%, 0 100%);
+
+}
+
+section h2 {
+  position: absolute;
+  top: calc(50% - 150px);
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 12em;
+  text-transform: uppercase;
+}
+ 
+section .text-box h2{
+  color: #FFF;
+}
+
+section h2{
+  color: #1897FF;
 }
