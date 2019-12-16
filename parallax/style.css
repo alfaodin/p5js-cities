@@ -28,16 +28,16 @@ body {
   position: absolute;
   left: 40%;
   width: 100%;
-	z-index: 9;
-	
-	bottom: 0;
+  z-index: 9;
+
+  bottom: 0;
   transform: translateX(-50%);
 }
 
 .zoom #layer2 {
   position: absolute;
-	right: 0;
-	bottom: 0;
+  right: 0;
+  bottom: 0;
   width: 100%;
   z-index: 9;
 }
@@ -53,7 +53,6 @@ body {
 .content {
   padding: 5rem;
   box-sizing: border-box;
-
 }
 
 .content h2 {

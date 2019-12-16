@@ -1,0 +1,107 @@
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Simple Vertical Parallax</title>
+	<link rel="stylesheet" type="text/css" href="./style.css">
+</head>
+
+<body>
+	<section class="content">
+		<section class="bird-box">
+			<div class="back-bird"></div>
+			<div class="logo"></div>
+			<div class="fore-bird"></div>
+		</section>
+
+		<article>
+			<h1>Unique Style</h1>
+			<hr>
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
+				magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+				pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa.
+			</p>
+		</article>
+
+		<hr>
+
+		<div class="clothes-pics">
+			<div class="row img-row">
+				<figure class="columns four">
+					<img src="./assets/model1.jpg">
+					<figcaption>BlackBird Sweater - <strong>$135</strong></figcaption>
+				</figure>
+				<figure class="columns four">
+					<img src="./assets/model2.jpg">
+					<figcaption>BlackBird Trousers - <strong>$135</strong></figcaption>
+				</figure>
+				<figure class="columns four">
+					<img src="./assets/model3.jpg">
+					<figcaption>BlackBird Jacket - <strong>$135</strong></figcaption>
+				</figure>
+			</div>
+			<div class="row img-row">
+				<figure class="columns four"><img src="./assets/model2.jpg">
+					<figcaption>BlackBird Trousers - <strong>$135</strong></figcaption>
+				</figure>
+				<figure class="columns four"><img src="./assets/model3.jpg">
+					<figcaption>BlackBird Jacket - <strong>$135</strong></figcaption>
+				</figure>
+				<figure class="columns four"><img src="./assets/model1.jpg">
+					<figcaption>BlackBird Sweater - <strong>$135</strong></figcaption>
+				</figure>
+			</div>
+			<div class="row img-row">
+				<figure class="columns four"><img src="./assets/model3.jpg">
+					<figcaption>BlackBird Jacket - <strong>$135</strong></figcaption>
+				</figure>
+				<figure class="columns four"><img src="./assets/model1.jpg">
+					<figcaption>BlackBird Sweater - <strong>$135</strong></figcaption>
+				</figure>
+				<figure class="columns four"><img src="./assets/model2.jpg">
+					<figcaption>BlackBird Trousers - <strong>$135</strong></figcaption>
+				</figure>
+			</div>
+		</div>
+	</section>
+
+	<div style="height: 100vh;">
+
+	</div>
+
+</body>
+
+<script text="text/javascript">
+	var scroll = window.pageYOffset;
+	var logo = document.getElementsByClassName('logo')[0];
+	var backBird = document.getElementsByClassName('back-bird')[0];
+	var foreBird = document.getElementsByClassName('fore-bird')[0];
+	var clothesPic = document.getElementsByClassName('clothes-pics')[0];
+	var columnElemnts = document.querySelectorAll('.columns');
+
+	document.addEventListener('scroll', (e) => {
+		scroll = window.pageYOffset;
+		console.log(`EL SCROO ES ${scroll}`);
+		logo.style.transform = `translate(0px, ${scroll * .5}%)`;
+		backBird.style.transform = `translate(0px, ${scroll * .25}%)`;
+		foreBird.style.transform = `translate(0px, -${scroll / 45}%)`;
+
+		if (clothesPic.offsetTop - 600 <= scroll) {
+			console.log('TEST');
+			columnElemnts.forEach((element, index) => {
+				setTimeout(() => {
+					element.classList.add("is-showing");
+				},
+					150 * (index + 1)
+				);
+			});
+		}
+
+	});
+
+</script>
+
+</html>
