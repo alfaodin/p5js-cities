@@ -19,5 +19,8 @@
   "homepage": "https://github.com/alfaodin/p5js-cities#readme",
   "devDependencies": {
     "lite-server": "^2.4.0"
+  },
+  "dependencies": {
+    "pixi.js": "^5.2.1"
   }
 }
